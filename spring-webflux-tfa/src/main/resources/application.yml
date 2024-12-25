@@ -14,8 +14,8 @@ spring:
     web-application-type: reactive
   data:
     mongodb:
-     # uri: mongodb://${MONGODB_LOGIN}:${MONGODB_PWD}@${MONGODB_URL}/${MONGODB_BASENAME}?${MONGODB_OPTS}
-      uri: mongodb://${MONGODB_LOGIN:devuser}:${MONGODB_PWD:Gh6AvK+V}@${MONGODB_URL:localhost:27017}/${MONGODB_BASENAME:fleetdb}?${MONGODB_OPTS:retryWrites=true&w=majority}
+     uri: mongodb://${MONGODB_LOGIN}:${MONGODB_PWD}@${MONGODB_URL}/${MONGODB_BASENAME}?${MONGODB_OPTS}
+     
 
 # Disabling the swagger-ui
 # https://springdoc.org/
