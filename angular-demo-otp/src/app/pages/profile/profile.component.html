@@ -1,0 +1,228 @@
+<div class="min-h-screen bg-background p-8">
+  <div class="container mx-auto max-w-2xl">
+    <div class="mb-8">
+      <div class="flex items-center justify-between">
+        <h1 class="text-3xl font-bold">Profile Settings</h1>
+        <a routerLink="/home" class="text-primary hover:underline">
+          Back to Dashboard
+        </a>
+      </div>
+    </div>
+
+    <div class="rounded-lg border bg-card">
+      <!-- Tabs -->
+      <div class="border-b">
+        <nav class="flex" aria-label="Tabs">
+          <button
+            [class.text-primary]="activeTab === 'profile'"
+            [class.border-primary]="activeTab === 'profile'"
+            (click)="activeTab = 'profile'"
+            class="px-4 py-3 text-sm font-medium border-b-2 -mb-px"
+            [class.border-transparent]="activeTab !== 'profile'"
+          >
+            Profile Information
+          </button>
+          <button
+            [class.text-primary]="activeTab === '2fa'"
+            [class.border-primary]="activeTab === '2fa'"
+            (click)="activeTab = '2fa'"
+            class="px-4 py-3 text-sm font-medium border-b-2 -mb-px"
+            [class.border-transparent]="activeTab !== '2fa'"
+          >
+            Two-Factor Authentication
+          </button>
+          <button
+            [class.text-primary]="activeTab === 'password'"
+            [class.border-primary]="activeTab === 'password'"
+            (click)="activeTab = 'password'"
+            class="px-4 py-3 text-sm font-medium border-b-2 -mb-px"
+            [class.border-transparent]="activeTab !== 'password'"
+          >
+            Change Password
+          </button>
+        </nav>
+      </div>
+
+      <!-- Profile Tab -->
+      <div *ngIf="activeTab === 'profile'" class="p-8">
+        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="space-y-6">
+          <div class="form-group">
+            <label for="fullname" class="text-sm font-medium">Full Name</label>
+            <input
+              id="fullname"
+              type="text"
+              formControlName="fullname"
+              class="form-input"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="email" class="text-sm font-medium">Email</label>
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+              class="form-input bg-gray-100"
+              [disabled]="true"
+              readonly
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="bio" class="text-sm font-medium">Bio</label>
+            <textarea
+              id="bio"
+              formControlName="bio"
+              rows="4"
+              class="form-input"
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            [disabled]="!profileForm.valid"
+            class="submit-button"
+          >
+            Save Changes
+          </button>
+        </form>
+      </div>
+
+      <!-- 2FA Tab -->
+      <div *ngIf="activeTab === '2fa'" class="p-8 space-y-6">
+        <div class="space-y-4">
+          <h3 class="text-lg font-medium">Two-Factor Authentication</h3>
+          <p class="text-muted-foreground">
+            Add an extra layer of security to your account by enabling two-factor authentication.
+          </p>
+        </div>
+
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h4 class="font-medium">Authentication Status</h4>
+              <p class="text-sm text-muted-foreground">
+                {{ is2FAEnabled ? 'Two-factor authentication is enabled' : 'Two-factor authentication is not enabled' }}
+              </p>
+            </div>
+            <button
+              (click)="toggle2FA()"
+              class="px-4 py-2 rounded-md"
+              [class.bg-destructive]="is2FAEnabled"
+              [class.bg-primary]="!is2FAEnabled"
+              [class.text-destructive-foreground]="is2FAEnabled"
+              [class.text-primary-foreground]="!is2FAEnabled"
+            >
+              {{ is2FAEnabled ? 'Disable 2FA' : 'Enable 2FA' }}
+            </button>
+          </div>
+
+          <div *ngIf="showQRCode" class="space-y-4">
+            <div class="border rounded-lg p-4 bg-muted/50">
+              <div class="text-center space-y-4">
+                <p class="text-sm font-medium">Scan this QR code with your authenticator app</p>
+                <!-- Placeholder for QR code -->
+                <div class="w-48 h-48 mx-auto bg-white p-2 rounded-lg">
+                  <img [src]="'data:image/png;base64,' + qrCodeUrl" alt="2FA QR Code" class="w-full h-full" />
+                </div>
+              </div>
+            </div>
+
+            <form [formGroup]="twoFactorForm" (ngSubmit)="enable2FA()" class="space-y-4">
+              <div class="form-group">
+                <label for="code" class="text-sm font-medium">Verification Code</label>
+                <input
+                  id="code"
+                  type="text"
+                  formControlName="code"
+                  class="form-input"
+                  placeholder="Enter 6-digit code"
+                  maxlength="6"
+                />
+              </div>
+              <button type="submit" class="submit-button" [disabled]="!twoFactorForm.valid">
+                Verify and Enable
+              </button>
+            </form>
+          </div>
+
+          <div *ngIf="is2FAEnabled" class="space-y-4">
+            <div class="border rounded-lg p-4">
+              <h4 class="font-medium mb-2">Recovery Codes</h4>
+              <p class="text-sm text-muted-foreground mb-4">
+                Save these recovery codes in a secure place. They can be used to recover your account if you lose access to your authenticator app.
+              </p>
+              <div class="grid grid-cols-2 gap-2">
+                <code *ngFor="let code of recoveryCodes" class="block p-2 bg-muted rounded text-sm font-mono">
+                  {{ code }}
+                </code>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Password Tab -->
+      <div *ngIf="activeTab === 'password'" class="p-8 space-y-6">
+        <div class="space-y-4">
+          <h3 class="text-lg font-medium">Change Password</h3>
+          <p class="text-muted-foreground">
+            Update your password to keep your account secure.
+          </p>
+        </div>
+
+        <form [formGroup]="passwordForm" (ngSubmit)="updatePassword()" class="space-y-6">
+          <div class="form-group">
+            <label for="currentPassword" class="text-sm font-medium">Current Password</label>
+            <input
+              id="currentPassword"
+              type="password"
+              formControlName="currentPassword"
+              class="form-input"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="newPassword" class="text-sm font-medium">New Password</label>
+            <input
+              id="newPassword"
+              type="password"
+              formControlName="newPassword"
+              class="form-input"
+            />
+            <p class="text-sm text-muted-foreground mt-1">
+              Password must be at least 8 characters and include uppercase, lowercase, and numbers.
+            </p>
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword" class="text-sm font-medium">Confirm New Password</label>
+            <input
+              id="confirmPassword"
+              type="password"
+              formControlName="confirmPassword"
+              class="form-input"
+            />
+          </div>
+
+          <div *ngIf="errorMessage" class="text-destructive text-sm">
+            {{ errorMessage }}
+          </div>
+
+          <div *ngIf="successMessage" class="text-green-600 text-sm">
+            {{ successMessage }}
+          </div>
+
+          <button
+            type="submit"
+            class="submit-button"
+            [disabled]="!passwordForm.valid || isLoading"
+          >
+            <span *ngIf="!isLoading">Update Password</span>
+            <span *ngIf="isLoading">Updating...</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div> 

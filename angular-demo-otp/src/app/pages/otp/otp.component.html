@@ -1,0 +1,48 @@
+<div class="flex min-h-screen items-center justify-center bg-background p-8">
+  <div class="w-full max-w-md space-y-8">
+    <div class="text-center space-y-4">
+      <h2 class="text-2xl font-bold">Two-Factor Authentication</h2>
+      <p class="text-muted-foreground">
+        Enter the 6-digit code from your authenticator app
+      </p>
+    </div>
+
+    <div class="auth-card">
+      <form [formGroup]="otpForm" (ngSubmit)="onSubmit()" class="space-y-6">
+        <div class="form-group">
+          <label for="code" class="text-sm font-medium">Verification Code</label>
+          <div class="otp-input-container">
+            <input
+              id="code"
+              type="text"
+              formControlName="code"
+              class="form-input text-center text-2xl tracking-widest"
+              maxlength="6"
+              autocomplete="one-time-code"
+              inputmode="numeric"
+              placeholder="000000"
+            />
+          </div>
+          <div *ngIf="otpForm.get('code')?.errors?.['incorrect']" class="error-message">
+            Invalid verification code. Please try again.
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          class="submit-button"
+          [disabled]="!otpForm.valid || isLoading"
+        >
+          <span *ngIf="!isLoading">Verify</span>
+          <span *ngIf="isLoading">Verifying...</span>
+        </button>
+
+        <div *ngIf="errorMessage" class="text-destructive text-sm mt-2">
+          {{ errorMessage }}
+        </div>
+
+        
+      </form>
+    </div>
+  </div>
+</div> 

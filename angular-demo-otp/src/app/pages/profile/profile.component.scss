@@ -1,0 +1,108 @@
+:host {
+  display: block;
+}
+
+.container {
+  @apply max-w-7xl mx-auto px-4;
+}
+
+.form-group {
+  @apply space-y-2;
+}
+
+.form-input {
+  @apply w-full rounded-md border p-2 transition-colors duration-200;
+  
+  &:focus {
+    @apply border-primary outline-none ring-2 ring-primary/20;
+  }
+  
+  &:hover:not(:disabled) {
+    @apply border-gray-400;
+  }
+
+  &:disabled,
+  &[readonly] {
+    @apply cursor-not-allowed;
+    @apply bg-gray-100;
+    @apply border-gray-300;
+  }
+}
+
+.submit-button {
+  @apply w-full rounded-md bg-primary px-4 py-2 text-white transition-colors duration-200;
+  
+  &:hover:not(:disabled) {
+    @apply bg-primary/90;
+  }
+  
+  &:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+}
+
+.auth-card {
+  @apply rounded-lg border bg-card p-8 shadow-sm transition-shadow duration-200;
+  
+  &:hover {
+    @apply shadow-md;
+  }
+}
+
+.auth-link {
+  @apply text-sm text-blue-600 hover:underline transition-colors duration-200;
+  
+  &:hover {
+    @apply text-blue-700;
+  }
+}
+
+.error-message {
+  @apply text-sm text-destructive mt-1;
+}
+
+// New styles for 2FA tab
+.tab-button {
+  @apply px-4 py-2 text-sm font-medium transition-colors duration-200;
+  
+  &.active {
+    @apply text-primary border-b-2 border-primary;
+  }
+}
+
+.qr-container {
+  @apply flex items-center justify-center p-4 bg-white rounded-lg shadow-sm;
+  
+  img {
+    @apply max-w-full h-auto;
+  }
+}
+
+.recovery-code {
+  @apply font-mono text-sm bg-muted p-2 rounded;
+}
+
+// Add these to your existing styles
+.password-requirements {
+  @apply text-sm text-muted-foreground mt-2;
+  
+  ul {
+    @apply list-disc pl-5 space-y-1;
+  }
+}
+
+.success-message {
+  @apply text-green-600 text-sm mt-2 flex items-center;
+  
+  svg {
+    @apply w-4 h-4 mr-2;
+  }
+}
+
+.error-message {
+  @apply text-destructive text-sm mt-2 flex items-center;
+  
+  svg {
+    @apply w-4 h-4 mr-2;
+  }
+} 

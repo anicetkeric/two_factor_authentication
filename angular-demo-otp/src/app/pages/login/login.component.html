@@ -1,0 +1,47 @@
+<div class="flex min-h-screen items-center justify-center bg-background p-8">
+  <div class="w-full max-w-md space-y-8">
+    <div class="text-center">
+      <h2 class="text-2xl font-bold">Sign in to your account</h2>
+    </div>
+    <div class="auth-card">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">
+        <div class="form-group">
+          <label for="email" class="text-sm font-medium">Email address</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            class="form-input"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="password" class="text-sm font-medium">Password</label>
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            class="form-input"
+            required
+          />
+        </div>
+        <div *ngIf="errorMessage" class="text-destructive text-sm mt-2">
+          {{ errorMessage }}
+        </div>
+        <button
+          type="submit"
+          class="submit-button"
+          [disabled]="!loginForm.valid || isLoading"
+        >
+          <span *ngIf="!isLoading">Sign in</span>
+          <span *ngIf="isLoading">Signing in...</span>
+        </button>
+        <div class="text-center">
+          <a routerLink="/register" class="auth-link">
+            Don't have an account? Register
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> 

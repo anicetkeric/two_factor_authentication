@@ -1,0 +1,75 @@
+<div class="flex min-h-screen items-center justify-center bg-background p-8">
+  <div class="w-full max-w-md space-y-8">
+    <div class="text-center">
+      <h2 class="text-2xl font-bold">Create an account</h2>
+    </div>
+    <div class="auth-card">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-6">
+        <div class="form-group">
+          <label for="fullname" class="text-sm font-medium">Full Name</label>
+          <input
+            id="fullname"
+            type="text"
+            formControlName="fullname"
+            class="form-input"
+            required
+          />
+          <div *ngIf="registerForm.get('fullname')?.touched && registerForm.get('fullname')?.errors" class="text-destructive text-sm mt-1">
+            <span *ngIf="registerForm.get('fullname')?.errors?.['required']">Full name is required</span>
+            <span *ngIf="registerForm.get('fullname')?.errors?.['minlength']">Full name must be at least 3 characters</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email" class="text-sm font-medium">Email address</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            class="form-input"
+            required
+          />
+          <div *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.errors" class="text-destructive text-sm mt-1">
+            <span *ngIf="registerForm.get('email')?.errors?.['required']">Email is required</span>
+            <span *ngIf="registerForm.get('email')?.errors?.['email']">Please enter a valid email</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password" class="text-sm font-medium">Password</label>
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            class="form-input"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword" class="text-sm font-medium">Confirm Password</label>
+          <input
+            id="confirmPassword"
+            type="password"
+            formControlName="confirmPassword"
+            class="form-input"
+            required
+          />
+        </div>
+        <div *ngIf="errorMessage" class="text-destructive text-sm mt-2">
+          {{ errorMessage }}
+        </div>
+        <button
+          type="submit"
+          class="submit-button"
+          [disabled]="!registerForm.valid || isLoading"
+        >
+          <span *ngIf="!isLoading">Register</span>
+          <span *ngIf="isLoading">Registering...</span>
+        </button>
+        <div class="text-center">
+          <a routerLink="/login" class="auth-link">
+            Already have an account? Sign in
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> 

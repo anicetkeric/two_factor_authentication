@@ -1,0 +1,15 @@
+:host {
+  display: block;
+}
+
+.container {
+  @apply max-w-7xl mx-auto px-4;
+}
+
+.dashboard-card {
+  @apply transition-shadow duration-200;
+  
+  &:hover {
+    @apply shadow-lg;
+  }
+} 

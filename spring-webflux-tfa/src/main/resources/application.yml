@@ -1,0 +1,39 @@
+server:
+  port: 8099
+  ssl:
+    enabled: false
+
+spring:
+  application:
+    name: tfa-api
+  jackson:
+    default-property-inclusion: NON_NULL
+    serialization:
+      fail-on-empty-beans: false
+  main:
+    web-application-type: reactive
+  data:
+    mongodb:
+     # uri: mongodb://${MONGODB_LOGIN}:${MONGODB_PWD}@${MONGODB_URL}/${MONGODB_BASENAME}?${MONGODB_OPTS}
+      uri: mongodb://${MONGODB_LOGIN:devuser}:${MONGODB_PWD:Gh6AvK+V}@${MONGODB_URL:localhost:27017}/${MONGODB_BASENAME:fleetdb}?${MONGODB_OPTS:retryWrites=true&w=majority}
+
+# Disabling the swagger-ui
+# https://springdoc.org/
+springdoc:
+  api-docs:
+    groups:
+      enabled: false
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+
+application:
+  security:
+    jwt:
+      secret-key: YQhIHKR+C1MpSgiOZcThDwbagd+JCeDyKYP8hl4bGA3nh1U7RI51aKKrwt/7Ui3IhDVSi/R69QLJRNWk/UqOHg==
+      # token in seconds: 1 hour
+      token-validity: 3600
+      # refresh token in seconds: 3 hours
+      token-refresh-validity: 10800
+      # temp token in seconds: 5 min
+      token-temp-validity: 300
