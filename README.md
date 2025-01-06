@@ -16,7 +16,7 @@ Clone the project
 
 ## Documentation
 
-[Medium Story]()
+[Medium Story](https://boottechnologies-ci.medium.com/totp-based-two-factor-authentication-implementation-with-spring-security-and-angular-18-d9b6747837a1)
 
 ## Screenshots
 
